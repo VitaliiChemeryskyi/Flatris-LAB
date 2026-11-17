@@ -1,6 +1,4 @@
 
-# Node.js with React
-
 trigger:
 - master
 
@@ -14,8 +12,17 @@ steps:
   displayName: 'Install Node.js 24'
 
 - script: |
+    corepack enable
+    corepack prepare yarn@1.22.22 --activate
     node --version
-    npm --version
-    npm install
-    npm run build
-  displayName: 'Install dependencies and build React application'
+    yarn --version
+    yarn install --frozen-lockfile
+  displayName: 'Install dependencies using Yarn'
+
+- script: |
+    yarn test
+  displayName: 'Run automated tests (Flow, ESLint, Jest)'
+
+- script: |
+    yarn build
+  displayName: 'Build React application'
